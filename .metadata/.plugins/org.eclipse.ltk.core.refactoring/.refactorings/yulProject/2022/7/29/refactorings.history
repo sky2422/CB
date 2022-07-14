@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;EgovSample_Sample_SQL.xml&apos; to &apos;mappers&apos;&#x0D;&#x0A;- Original project: &apos;yulProject&apos;&#x0D;&#x0A;- Destination element: &apos;mappers&apos;&#x0D;&#x0A;- Original element: &apos;EgovSample_Sample_SQL.xml&apos;" description="Copy file" element1="src/main/resources/egovframework/sqlmap/example/mappers/EgovSample_Sample_SQL.xml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1657499355059" target="/yulProject/src/main/resources/egovframework/sqlmap/example/mappers" units="0" version="1.0"/>
+</session>

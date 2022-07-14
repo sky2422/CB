@@ -1,0 +1,13 @@
+package egovframework.example.sample.service.impl;
+
+import java.util.List;
+
+import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.rte.psl.dataaccess.mapper.Mapper;
+
+@Mapper("boardMapper")
+public interface BoardMapper {
+	
+	List<?> selectBoardList(SampleDefaultVO searchVO) throws Exception;
+
+}

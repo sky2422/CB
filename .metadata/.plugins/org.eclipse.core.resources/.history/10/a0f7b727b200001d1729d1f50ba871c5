@@ -1,0 +1,18 @@
+package egovframework.example.sample.service;
+
+public class BoardVO {
+	
+	private String unq;
+	private String ym;
+	private String sensor_nm;
+	private String sensor_no;
+	private String avrg_tp;
+	private String avrg_hd;
+	private String avrg_ulfptc_dnsty;
+	private String avrg_minudust_dnsty;
+	private String avrg_ulvry_idex;
+	private String dong_cd2;
+	private String admi_cd;
+	private String admi_nm;
+	
+}

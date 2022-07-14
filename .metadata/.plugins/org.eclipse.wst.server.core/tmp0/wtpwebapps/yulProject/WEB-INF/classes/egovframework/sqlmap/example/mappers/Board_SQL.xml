@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.BoardMapper">
+	
+	<resultMap id="board" type="egovframework.example.sample.service.BoardVO">
+		<result property="unq" column="unq"/>
+		<result property="ym" column="ym"/>
+		<result property="sensor_nm" column="sensor_nm"/>
+		<result property="sensor_no" column="sensor_no"/>
+		<result property="avrg_tp" column="avrg_tp"/>
+		<result property="avrg_hd" column="avrg_hd"/>
+		<result property="avrg_ulfptc_dnsty" column="avrg_ulfptc_dnsty"/>
+		<result property="avrg_minudust_dnsty" column="avrg_minudust_dnsty"/>
+		<result property="avrg_ulvry_idex" column="avrg_ulvry_idex"/>
+		<result property="dong_cd2" column="dong_cd2"/>
+		<result property="admi_cd" column="admi_cd"/>
+		<result property="admi_nm" column="admi_nm"/>
+	</resultMap>
+	
+	<select id="selectBoardList" parameterType="searchVO" resultMap="egovMap">
+		select * from test2
+	</select>
+
+</mapper>

@@ -1,0 +1,24 @@
+package egovframework.example.sample.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import egovframework.example.sample.service.BoardService;
+import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+
+@Service("boardService")
+public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardService {
+	
+	@Resource(name = "boardMapper")
+	private BoardMapper boardDAO;
+	
+	@Override
+	public List<?> selectBoardList(SampleDefaultVO searchVO) throws Exception {
+		return boardDAO.selectBoardList(searchVO);
+	}
+
+}

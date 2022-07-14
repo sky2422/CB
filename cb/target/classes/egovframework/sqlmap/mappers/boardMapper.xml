@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="egovframework.example.board.service.BoardMapper">
+		
+		<!-- 데이터 목록 보기 -->
+		<select id="selectBoard" resultType="egovframework.example.board.vo.BoardVO">
+			select s.unq as unq, s.ym as ym, f.admi_nm as admi_nm, s.sensor_nm as sensor_nm, s.avrg_tp as avrg_tp, s.avrg_hd as avrg_hd, s.avrg_ulfptc_dnsty as avrg_ulfptc_dnsty, s.avrg_minudust_dnsty as avrg_minudust_dnsty, s.avrg_ulvry_idex as avrg_ulvry_idex
+			from test1 f join test2 s
+			on f.admi_cd = s.dong_cd2
+<!-- 			<trim prefix="WHERE" prefixOverrides="AND|OR"> -->
+<!-- 				<if test="searchType=='ym' and keyword != null and keyword != '' "> -->
+<!-- 					AND ym like CONCAT('%', #{keyword}, '%') -->
+<!-- 				</if> -->
+<!-- 				<if test="searchType=='admi_nm' and keyword != null and keyword != '' "> -->
+<!-- 					AND admi_nm like CONCAT('%', #{keyword}, '%') -->
+<!-- 				</if> -->
+<!-- 				<if test="searchType=='sensor_nm' and keyword != null and keyword != '' "> -->
+<!-- 					AND sensor_nm like CONCAT('%', #{keyword}, '%') -->
+<!-- 				</if> -->
+<!-- 			</trim> -->
+			ORDER BY
+			unq asc
+<!-- 			LIMIT #{startList} offset #{listSize} -->
+		</select>
+		
+		<!-- 전체 데이터 개수를 읽어 오는 SQL문 -->
+		<select id="getBoardListCnt" resultType="int">
+			select count(*) as listCnt
+			from test1 f join test2 s
+			on f.admi_cd = s.dong_cd2
+<!-- 			<trim prefix="WHERE" prefixOverrides="AND|OR"> -->
+<!-- 				<if test="keyword != null and keyword != '' "> -->
+<!-- 					<if test="searchType=='ym'"> -->
+<!-- 						AND ym like CONCAT('%', #{keyword}, '%') -->
+<!-- 					</if> -->
+<!-- 					<if test="searchType=='admi_nm'"> -->
+<!-- 						AND admi_nm like CONCAT('%', #{keyword}, '%') -->
+<!-- 					</if> -->
+<!-- 					<if test="searchType=='sensor_nm'"> -->
+<!-- 						AND sensor_nm like CONCAT('%', #{keyword}, '%') -->
+<!-- 					</if> -->
+<!-- 				</if> -->
+<!-- 			</trim> -->
+		</select>
+		
+		<!-- 데이터 삽입 -->
+		<insert id="insertTest" parameterType="boardVO">
+			<![CDATA[
+			INSERT INTO test2(ym, dong_cd2, sensor_nm, avrg_tp, avrg_hd, avrg_ulfptc_dnsty, avrg_minudust_dnsty, avrg_minudust_dnsty)
+			VALUES(to_char(now(), 'yyyymm'), #{dong_cd2}, #{sensor_nm}, #{avrg_tp}, #{avrg_hd}, #{avrg_ulfptc_dnsty}, #{avrg_minudust_dnsty}, #{avrg_ulvry_idex})
+			]]>			
+		</insert>
+		
+		<!-- 센서명 불러오기 -->
+		<select id="getSensorList" resultType="egovframework.example.board.vo.BoardVO">
+			<![CDATA[
+			select distinct sensor_nm 
+			from test2
+			]]>
+		</select>
+		
+	</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

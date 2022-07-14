@@ -1,0 +1,20 @@
+package egovframework.example.sample.web;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import egovframework.example.sample.service.BoardService;
+import egovframework.rte.fdl.property.EgovPropertyService;
+
+@Controller
+public class BoardController {
+
+	@RequestMapping(value = "/boardList.do")
+	public String boardList() {
+		return "board/boardList";
+	}
+	
+}
