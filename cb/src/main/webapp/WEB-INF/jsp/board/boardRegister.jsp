@@ -34,12 +34,12 @@
 				<h1>데이터 등록</h1>
 			</thead>
 			<tbody>
-				<form id="form_board" action="insertboard.do" method="post"
+				<form id="form_board" action="insertBoard.do" method="post"
 					encType="multiplart/form-data">
 					<tr>
 						<th>행정동명</th>
 						<td>	
-							<select id="" class="form-control">
+							<select id="" name="" class="form-control">
 								<option selected>행정동명</option>
 								<c:forEach items="" var="">
 									<option><c:out value=""/></option>
@@ -51,7 +51,7 @@
 					<tr>
 						<th>센서명</th>
 						<td>
-							<select id="sensor_nm" class="form-control">
+							<select id="" name="sensor_nm" class="form-control">
 								<option selected>센서명</option>
 								<c:forEach items="" var="">
 									<option><c:out value=""/></option>
@@ -81,7 +81,7 @@
 					</tr>
 					<tr>
 						<th>자외선</th>
-						<td><input type="text" placeholder="자외선 수치를 입력하세요." name="avrg_minudust_dnsty" class="form-control" /></td>
+						<td><input type="text" placeholder="자외선 수치를 입력하세요." name="avrg_ulvry_idex" class="form-control" /></td>
 					</tr>
 					<tr>
 						<td colspan="2">

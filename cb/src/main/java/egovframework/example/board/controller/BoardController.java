@@ -55,6 +55,8 @@ public class BoardController {
 		@RequestMapping(value = "/boardRegister.do")
 		public String boardRegister() {			
 			
+			
+			
 			return "board/boardRegister";
 		}
 		

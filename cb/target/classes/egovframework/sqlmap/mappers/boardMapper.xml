@@ -45,9 +45,9 @@
 		</select>
 		
 		<!-- 데이터 삽입 -->
-		<insert id="insertTest" parameterType="boardVO">
+		<insert id="insertBoard" parameterType="boardVO">
 			<![CDATA[
-			INSERT INTO test2(ym, dong_cd2, sensor_nm, avrg_tp, avrg_hd, avrg_ulfptc_dnsty, avrg_minudust_dnsty, avrg_minudust_dnsty)
+			INSERT INTO test2(ym, dong_cd2, sensor_nm, avrg_tp, avrg_hd, avrg_ulfptc_dnsty, avrg_minudust_dnsty, avrg_ulvry_idex)
 			VALUES(to_char(now(), 'yyyymm'), #{dong_cd2}, #{sensor_nm}, #{avrg_tp}, #{avrg_hd}, #{avrg_ulfptc_dnsty}, #{avrg_minudust_dnsty}, #{avrg_ulvry_idex})
 			]]>			
 		</insert>
