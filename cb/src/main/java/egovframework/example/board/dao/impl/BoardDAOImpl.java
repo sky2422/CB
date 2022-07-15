@@ -17,11 +17,11 @@ public class BoardDAOImpl implements BoardDAO {
 	@Autowired(required=false)
 	private SqlSession sqlSession;
 	
-	/*데이터 목록 보기*/
+	/*데이터 리스트*/
 	@Override
-	public List<BoardVO> selectBoard(Search search) throws Exception {
-		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
-		return mapper.selectBoard(search);
+	public List<BoardVO> selectBoard(BoardVO boardVO) throws Exception {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class); 
+		return mapper.selectBoard(boardVO);
 	}
 	
 	/*데이터 등록*/
@@ -31,17 +31,42 @@ public class BoardDAOImpl implements BoardDAO {
 		mapper.insertBoard(boardVO);
 	}
 	
+	/*데이터 상세*/
+	@Override
+	public BoardVO selectDetail(BoardVO boardVO) throws Exception {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.selectDetail(boardVO);
+	}
+	
+	/*데이터 수정*/
+	@Override
+	public void updateBoard(BoardVO boardVO) throws Exception {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		mapper.updateBoard(boardVO);
+	}
+	
+	/*데이터 삭제*/
+	@Override
+	public void deleteBoard(BoardVO boardVO) throws Exception {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		mapper.deleteBoard(boardVO);
+	}
+	
 	/*총 게시글 개수 확인*/
 	@Override
 	public int getBoardListCnt(Search search) throws Exception {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.getBoardListCnt(search);
 	}
-	
-	/*센서명 가져오기*/
-	
 
-	
+	//행정동 리스트
+	@Override
+	public List<BoardVO> dongList(BoardVO boardVO) throws Exception {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.dongList(boardVO);
+	}
+
+		
 	
 
 }

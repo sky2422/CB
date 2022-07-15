@@ -23,55 +23,58 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-		// 데이터 목록 리스트, 페이징, 검색
-		@RequestMapping(value = "/boardList.do")
-		public String boardListDo(Model model
-				,@RequestParam(required = false, defaultValue = "1") int page
-				,@RequestParam(required = false, defaultValue = "1") int range
-				,@RequestParam(required = false, defaultValue = "ym") String searchType
-				,@RequestParam(required = false) String keyword,
-				@ModelAttribute("search") Search search
-				) throws Exception {
-
-			//검색
-			model.addAttribute("search", search);
-			search.setSearchType(searchType);
-			search.setKeyword(keyword);
-			
-			// 전체 데이터 개수를 얻어와 listCnt에 저장
-			int listCnt = boardService.getBoardListCnt(search);
-
-			//검색
-			search.pageInfo(page, range, listCnt);
-			//페이징
-			model.addAttribute("pagination", search);
-			//데이터 화면 출력
-			model.addAttribute("list", boardService.selectBoard(search));
-
-			return "board/boardList";
-		}
-		
-		//데이터 작성 클릭시 데이터 작성 페이지로 이동
-		@RequestMapping(value = "/boardRegister.do")
-		public String boardRegister() {			
-			
-			
-			
-			return "board/boardRegister";
-		}
-		
-		//데이터 작성 버튼 구현
-		@RequestMapping(value = "/insertBoard.do")
-		public String write(@ModelAttribute("boardVO") BoardVO boardVO, RedirectAttributes rttr) throws Exception{
-			boardService.insertBoard(boardVO);
-						
-			return "redirect:boardList.do";
-			
-		}
-		
-		//센서명 리스트
-		
+	@RequestMapping(value = "/boardList.do")
+	public String boardListDO(@ModelAttribute BoardVO boardVO, Model model) throws Exception{
+		model.addAttribute("list", boardService.selectBoard(boardVO));
+		return "board/boardList";
+	}
 	
+	//데이터 작성 클릭시 데이터 작성 페이지로 이동
+	@RequestMapping(value = "/boardRegister.do")
+	public String boardRegister(@ModelAttribute BoardVO boardVO, Model model) throws Exception {			
+		
+		//행정동 리스트
+		model.addAttribute("dongList", boardService.dongList(boardVO));			
+		
+		return "board/boardRegister";
+	}
+	
+	//데이터 작성 버튼 구현
+	@RequestMapping(value = "/insertBoard.do")
+	public String write(@ModelAttribute("boardVO") BoardVO boardVO, RedirectAttributes rttr) throws Exception{
+		boardService.insertBoard(boardVO);
+					
+		return "redirect:boardList.do";
+		
+	}
+	
+	//데이터번호 선택시 상세보기
+	@RequestMapping(value = "/boardDetail.do")
+	public String viewForm(@ModelAttribute("boardVO") BoardVO boardVO, Model model, HttpServletRequest request) throws Exception{
+		
+		int unq = Integer.parseInt(request.getParameter("unq")); 
+		boardVO.setUnq(unq);
+		
+		BoardVO resultVO = boardService.selectDetail(boardVO);
+		model.addAttribute("result", resultVO);
+		
+		return "board/boardDetail";
+	}
+	
+	//데이터 수정
+	@RequestMapping(value = "/updateBoard.do")
+	public String updateBoard(@ModelAttribute("boardVO") BoardVO boardVO, HttpServletRequest request) throws Exception{
+		boardService.updateBoard(boardVO);
+		return "redirect:boardList.do";			
+	}
+	
+	//데이터 삭제
+	@RequestMapping(value = "/deleteBoard.do")
+	public String deleteBoard(@ModelAttribute("boardVO") BoardVO boardVO) throws Exception{
+		boardService.deleteBoard(boardVO);
+		return "redirect:boardList.do";
+	}
+		
 		
 }
 

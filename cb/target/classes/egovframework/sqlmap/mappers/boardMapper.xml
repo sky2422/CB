@@ -8,41 +8,9 @@
 			select s.unq as unq, s.ym as ym, f.admi_nm as admi_nm, s.sensor_nm as sensor_nm, s.avrg_tp as avrg_tp, s.avrg_hd as avrg_hd, s.avrg_ulfptc_dnsty as avrg_ulfptc_dnsty, s.avrg_minudust_dnsty as avrg_minudust_dnsty, s.avrg_ulvry_idex as avrg_ulvry_idex
 			from test1 f join test2 s
 			on f.admi_cd = s.dong_cd2
-<!-- 			<trim prefix="WHERE" prefixOverrides="AND|OR"> -->
-<!-- 				<if test="searchType=='ym' and keyword != null and keyword != '' "> -->
-<!-- 					AND ym like CONCAT('%', #{keyword}, '%') -->
-<!-- 				</if> -->
-<!-- 				<if test="searchType=='admi_nm' and keyword != null and keyword != '' "> -->
-<!-- 					AND admi_nm like CONCAT('%', #{keyword}, '%') -->
-<!-- 				</if> -->
-<!-- 				<if test="searchType=='sensor_nm' and keyword != null and keyword != '' "> -->
-<!-- 					AND sensor_nm like CONCAT('%', #{keyword}, '%') -->
-<!-- 				</if> -->
-<!-- 			</trim> -->
-			ORDER BY
-			unq asc
-<!-- 			LIMIT #{startList} offset #{listSize} -->
+			ORDER BY unq asc
 		</select>
 		
-		<!-- 전체 데이터 개수를 읽어 오는 SQL문 -->
-		<select id="getBoardListCnt" resultType="int">
-			select count(*) as listCnt
-			from test1 f join test2 s
-			on f.admi_cd = s.dong_cd2
-<!-- 			<trim prefix="WHERE" prefixOverrides="AND|OR"> -->
-<!-- 				<if test="keyword != null and keyword != '' "> -->
-<!-- 					<if test="searchType=='ym'"> -->
-<!-- 						AND ym like CONCAT('%', #{keyword}, '%') -->
-<!-- 					</if> -->
-<!-- 					<if test="searchType=='admi_nm'"> -->
-<!-- 						AND admi_nm like CONCAT('%', #{keyword}, '%') -->
-<!-- 					</if> -->
-<!-- 					<if test="searchType=='sensor_nm'"> -->
-<!-- 						AND sensor_nm like CONCAT('%', #{keyword}, '%') -->
-<!-- 					</if> -->
-<!-- 				</if> -->
-<!-- 			</trim> -->
-		</select>
 		
 		<!-- 데이터 삽입 -->
 		<insert id="insertBoard" parameterType="boardVO">
@@ -53,13 +21,39 @@
 		</insert>
 		
 		<!-- 센서명 불러오기 -->
-		<select id="getSensorList" resultType="egovframework.example.board.vo.BoardVO">
+		<select id="dongList" resultType="boardVO">
+			
+			select distinct f.admi_nm as admi_nm, s.dong_cd2 as dong_cd2
+			from test1 f join test2 s
+			on f.admi_cd = s.dong_cd2
+			
+		</select>
+		
+		<!-- 데이터 상세 -->
+		<select id="selectDetail" parameterType="boardVO" resultType="boardVO">
 			<![CDATA[
-			select distinct sensor_nm 
+			select ym, dong_cd2, sensor_nm, avrg_tp, avrg_hd, avrg_ulfptc_dnsty, avrg_minudust_dnsty, avrg_ulvry_idex
 			from test2
+			where unq=#{unq}
 			]]>
 		</select>
 		
+		<!-- 데이터 업데이트 -->
+		<update id="updateBoard">
+			update test2 set dong_cd2=#{dong_cd2}
+							,sensor_nm=#{sensor_nm}
+							,avrg_tp=#{avrg_tp}
+							,avrg_hd=#{avrg_hd}
+							,avrg_ulfptc_dnsty=#{avrg_ulfptc_dnsty}
+							,avrg_minudust_dnsty=#{avrg_minudust_dnsty}
+							,avrg_ulvry_idex=#{avrg_ulvry_idex}
+		</update>
+		
+		<!-- 데이터 삭제 -->
+		<delete id="deleteBoard">
+			delete from test2
+			where unq=#{unq}
+		</delete>
 	</mapper>
 	
 	

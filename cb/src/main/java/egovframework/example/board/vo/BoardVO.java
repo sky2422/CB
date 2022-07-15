@@ -2,7 +2,7 @@ package egovframework.example.board.vo;
 
 public class BoardVO {
 	
-	private String unq;
+	private int unq;
 	private String ym;
 	private String sensor_no;
 	private String sensor_nm;
@@ -16,10 +16,11 @@ public class BoardVO {
 	private String admi_nm;
 	private String admi_cd;
 	
-	public String getUnq() {
+	
+	public int getUnq() {
 		return unq;
 	}
-	public void setUnq(String unq) {
+	public void setUnq(int unq) {
 		this.unq = unq;
 	}
 	public String getYm() {
