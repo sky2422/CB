@@ -36,6 +36,11 @@
 					encType="multiplart/form-data">
 					
 					<tr>
+						<th>데이터 번호</th>
+						<td><input type="text" name="unq" value="${result.unq }" class="form-control" readonly="readonly"></td>
+					</tr>
+					
+					<tr>
 						<th>행정동명</th>
 						<td>
 							<select id="dongList" name="dongList" class="form-control">

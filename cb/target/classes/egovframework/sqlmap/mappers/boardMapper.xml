@@ -32,7 +32,7 @@
 		<!-- 데이터 상세 -->
 		<select id="selectDetail" parameterType="boardVO" resultType="boardVO">
 			<![CDATA[
-			select ym, dong_cd2, sensor_nm, avrg_tp, avrg_hd, avrg_ulfptc_dnsty, avrg_minudust_dnsty, avrg_ulvry_idex
+			select unq, ym, dong_cd2, sensor_nm, avrg_tp, avrg_hd, avrg_ulfptc_dnsty, avrg_minudust_dnsty, avrg_ulvry_idex
 			from test2
 			where unq=#{unq}
 			]]>
@@ -47,6 +47,7 @@
 							,avrg_ulfptc_dnsty=#{avrg_ulfptc_dnsty}
 							,avrg_minudust_dnsty=#{avrg_minudust_dnsty}
 							,avrg_ulvry_idex=#{avrg_ulvry_idex}
+			where unq = #{unq}
 		</update>
 		
 		<!-- 데이터 삭제 -->

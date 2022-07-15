@@ -65,7 +65,7 @@
 					
 					<tr>
 						<th>습도</th>
-						<td><input type="text" placeholder="습도를 입력해 주세요." name="avrg_hd " class="form-control" /></td>
+						<td><input type="text" placeholder="습도를 입력해 주세요." name="avrg_hd" class="form-control" /></td>
 					</tr>
 					
 					<tr>

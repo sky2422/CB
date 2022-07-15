@@ -15,8 +15,6 @@ public class BoardVO {
 	private String dong_cd2;
 	private String admi_nm;
 	private String admi_cd;
-	
-	
 	public int getUnq() {
 		return unq;
 	}
@@ -95,6 +93,9 @@ public class BoardVO {
 	public void setAdmi_cd(String admi_cd) {
 		this.admi_cd = admi_cd;
 	}
+	
+	
+
 	
 	
 	

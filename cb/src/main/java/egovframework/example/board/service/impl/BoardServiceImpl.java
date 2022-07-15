@@ -31,6 +31,7 @@ public class BoardServiceImpl implements BoardService{
 	/*데이터 상세*/
 	@Override
 	public BoardVO selectDetail(BoardVO boardVO) throws Exception {
+		
 		return boardDAO.selectDetail(boardVO);
 	}
 	
