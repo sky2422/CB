@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.example.board.service.BoardService;
 import egovframework.example.board.vo.BoardVO;
-import egovframework.example.board.vo.Search;
+
 
 @Controller
 public class BoardController {

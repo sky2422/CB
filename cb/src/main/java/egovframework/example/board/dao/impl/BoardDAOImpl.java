@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.example.board.dao.BoardDAO;
 import egovframework.example.board.service.BoardMapper;
 import egovframework.example.board.vo.BoardVO;
-import egovframework.example.board.vo.Search;
+
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -51,14 +51,7 @@ public class BoardDAOImpl implements BoardDAO {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		mapper.deleteBoard(boardVO);
 	}
-	
-	/*총 게시글 개수 확인*/
-	@Override
-	public int getBoardListCnt(Search search) throws Exception {
-		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
-		return mapper.getBoardListCnt(search);
-	}
-
+		
 	//행정동 리스트
 	@Override
 	public List<BoardVO> dongList(BoardVO boardVO) throws Exception {

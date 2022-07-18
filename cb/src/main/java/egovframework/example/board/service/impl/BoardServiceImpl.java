@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import egovframework.example.board.dao.BoardDAO;
 import egovframework.example.board.service.BoardService;
 import egovframework.example.board.vo.BoardVO;
-import egovframework.example.board.vo.Search;
+
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -46,13 +46,7 @@ public class BoardServiceImpl implements BoardService{
 	public void deleteBoard(BoardVO boardVO) throws Exception {
 		boardDAO.deleteBoard(boardVO);		
 	}
-
 	
-	//총 게시글 개수 확인
-	@Override
-	public int getBoardListCnt(Search search) throws Exception {
-		return boardDAO.getBoardListCnt(search);
-	}
 
 	//행정동 리스트
 	@Override
