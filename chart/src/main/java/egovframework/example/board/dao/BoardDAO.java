@@ -3,12 +3,12 @@ package egovframework.example.board.dao;
 import java.util.List;
 
 import egovframework.example.board.vo.BoardVO;
-
+import egovframework.example.board.vo.Search;
 
 public interface BoardDAO {
-	
+
 	/*데이터 리스트*/
-	List<BoardVO> selectBoard(BoardVO boardVO) throws Exception;
+//	List<BoardVO> selectBoard(BoardVO boardVO) throws Exception;
 	
 	/*데이터 입력*/
 	void insertBoard(BoardVO boardVO) throws Exception;
@@ -27,6 +27,14 @@ public interface BoardDAO {
 	
 	//센서 리스트
 	List<BoardVO> sensorList(BoardVO boardVO) throws Exception;
+	
+	//검색&페이징 데이터 리스트
+	List<BoardVO> selectBoard(Search search) throws Exception;
+	
+	//데이터 갯수
+	int getBoardListCnt(Search search) throws Exception;
+	
+
 	
 	
 

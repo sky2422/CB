@@ -10,31 +10,60 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.example.board.service.BoardService;
 import egovframework.example.board.vo.BoardVO;
-
+import egovframework.example.board.vo.Search;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+		
+//	@RequestMapping(value = "/boardList.do")
+//	public String boardListDO(@ModelAttribute BoardVO boardVO, Model model) throws Exception{
+//		model.addAttribute("list", boardService.selectBoard(boardVO));
+//		
+//		//행정동 리스트
+//		model.addAttribute("dongList", boardService.dongList(boardVO));	
+//		
+//		//센서 리스트
+//		model.addAttribute("sensorList", boardService.sensorList(boardVO));
+//		
+//		return "board/boardList";
+//	}
 	
+	//검색&페이징 데이터 리스트
 	@RequestMapping(value = "/boardList.do")
-	public String boardListDO(@ModelAttribute BoardVO boardVO, Model model) throws Exception{
-		model.addAttribute("list", boardService.selectBoard(boardVO));
+	public String boardListDO(BoardVO boardVO, Model model
+							 ,@RequestParam(required=false, defaultValue="1")int page
+							 ,@RequestParam(required=false, defaultValue="1")int range
+							 ,@RequestParam(required=false, defaultValue="ym")String searchType
+							 ,@RequestParam(required=false)String keyword
+							 ,@ModelAttribute("search")Search search) throws Exception{
 		
-		//행정동 리스트
-		model.addAttribute("dongList", boardService.dongList(boardVO));	
+		//검색
+		model.addAttribute("search", search);
+		search.setSearchType(searchType);
+		search.setKeyword(keyword);
 		
-		//센서 리스트
-		model.addAttribute("sensorList", boardService.sensorList(boardVO));
+		//전체 데이터 개수
+		int listCnt = boardService.getBoardListCnt(search);
+		
+		//검색 후 페이지
+		search.pageInfo(page, range, listCnt);
+		//페이징
+		model.addAttribute("pagination", search);
+		//데이터 화면 출력
+		model.addAttribute("list", boardService.selectBoard(search));
 		
 		return "board/boardList";
 	}
+
 	
 	//데이터 작성 클릭시 데이터 작성 페이지로 이동
 	@RequestMapping(value = "/boardRegister.do")

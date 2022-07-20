@@ -30,19 +30,19 @@
 		<form id="boardForm" name="boardForm" method="post">
 			
 			<!-- search start -->
-			<div class="form-group row">
+			<div class="form-group row">				
 				
-								
+				
 				<div class="w100" style="padding-right: 10px">
 					<select class="form-control form-control-sm" name="searchType" id="searchType">
+						<option value="ym">날짜</option>
 						<option value="admi_nm">동네명</option>
-						<option value="ym">날짜</option>						
 						<option value="sensor_nm">센서명</option>
 					</select>				
 				</div>		
 				
 				<div class="w300" style="padding-right : 10px">
-					<input type="text" class="form-control form-control-sm" name="keyword" id="keyword">
+					<input type="text" class="form-control form-control-sm" name="keyword" id="keyword">									
 				</div>		
 				
 				<div>
@@ -143,24 +143,22 @@
 	 	form.submit(); 
 	}
 	
-	
-	//데이트피커
-	$(function() {
-        $('.date-picker').datepicker( {
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        dateFormat: 'yy년 MM',
-        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        showOn:"button",
-        buttonImage:"/images/calender.png",
-        buttonImageOnly:true,
-        onClose: function(dateText, inst) { 
-            $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
-        }
-        });
-    });
+// 	$(function() {
+//         $('.date-picker').datepicker( {
+//         changeMonth: true,
+//         changeYear: true,
+//         showButtonPanel: true,
+//         dateFormat: 'yy년 MM',
+//         monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+//         monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+//         showOn:"button",
+//         buttonImage:"/images/calender.png",
+//         buttonImageOnly:true,
+//         onClose: function(dateText, inst) { 
+//             $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+//         }
+//         });
+//     });
 
 	//이전 버튼 이벤트
     //5개의 인자값을 가지고 이동 testList.do

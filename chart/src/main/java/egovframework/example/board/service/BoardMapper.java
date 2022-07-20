@@ -3,11 +3,12 @@ package egovframework.example.board.service;
 import java.util.List;
 
 import egovframework.example.board.vo.BoardVO;
+import egovframework.example.board.vo.Search;
 
 public interface BoardMapper {
 	
-	/*데이터 리스트*/
-	public List<BoardVO> selectBoard(BoardVO boardVO) throws Exception;
+//	/*데이터 리스트*/
+//	public List<BoardVO> selectBoard(BoardVO boardVO) throws Exception;
 	
 	/*데이터 입력*/
 	public void insertBoard(BoardVO boardVO) throws Exception;
@@ -26,6 +27,15 @@ public interface BoardMapper {
 	
 	/*센서 리스트*/
 	public List<BoardVO> sensorList(BoardVO boardVO) throws Exception;
+	
+	//페이징&검색 데이터 리스트
+	public List<BoardVO> selectBoard(Search search);
+	
+	//데이터 갯수
+	public int getBoardListCnt(Search search);
+	
+
+
 
 	
 

@@ -9,20 +9,20 @@ import org.springframework.stereotype.Repository;
 import egovframework.example.board.dao.BoardDAO;
 import egovframework.example.board.service.BoardMapper;
 import egovframework.example.board.vo.BoardVO;
-
+import egovframework.example.board.vo.Search;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
 	
-	@Autowired(required=false)
+	@Autowired(required=true)
 	private SqlSession sqlSession;
-	
+		
 	/*데이터 리스트*/
-	@Override
-	public List<BoardVO> selectBoard(BoardVO boardVO) throws Exception {
-		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class); 
-		return mapper.selectBoard(boardVO);
-	}
+//	@Override
+//	public List<BoardVO> selectBoard(BoardVO boardVO) throws Exception {
+//		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class); 
+//		return mapper.selectBoard(boardVO);
+//	}
 	
 	/*데이터 등록*/
 	@Override
@@ -65,6 +65,24 @@ public class BoardDAOImpl implements BoardDAO {
 		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
 		return mapper.sensorList(boardVO);
 	}
+	
+	//검색$페이징 데이터 리스트
+	@Override
+	public List<BoardVO> selectBoard(Search search) throws Exception {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.selectBoard(search);
+	}
+	
+	//데이터 갯수
+	@Override
+	public int getBoardListCnt(Search search) throws Exception {
+		BoardMapper mapper=sqlSession.getMapper(BoardMapper.class);
+		return mapper.getBoardListCnt(search);
+	}
+	
+
+	
+
 
 		
 	
