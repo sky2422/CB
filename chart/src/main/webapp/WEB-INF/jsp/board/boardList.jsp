@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
 <link href="/css/board/board.css" rel="stylesheet" type="text/css">
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 
@@ -40,7 +41,6 @@
 				<div class="w100" style="padding-right: 10px">
 					<select class="form-control form-control-sm" name="searchType" id="searchType">
 						<option value="admi_nm">동네명</option>
-<!-- 						<option value="ym">날짜</option>						 -->
 						<option value="sensor_nm">센서명</option>
 					</select>				
 				</div>		

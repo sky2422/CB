@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.example.board.service.BoardService;
 import egovframework.example.board.vo.BoardVO;
 import egovframework.example.board.vo.Search;
@@ -62,6 +64,20 @@ public class BoardController {
 		model.addAttribute("pagination", search);
 		//데이터 화면 출력
 		model.addAttribute("list", boardService.selectBoard(search));
+		
+		//list를 json으로 변환
+			//List 생성
+			List<BoardVO> dataList = boardService.selectBoard(search);
+			
+			//jackson objectmapper 객체 생성
+			ObjectMapper objectMapper = new ObjectMapper();
+			
+			//List -> Json 문자열
+			String jList = objectMapper.writeValueAsString(dataList);			
+			
+			//Json 문자열 출력
+			System.out.println(jList);
+		
 		
 		return "board/boardList";
 	}
