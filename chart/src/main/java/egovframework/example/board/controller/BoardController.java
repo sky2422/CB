@@ -42,15 +42,17 @@ public class BoardController {
 	public String boardListDO(BoardVO boardVO, Model model
 							 ,@RequestParam(required=false, defaultValue="1")int page
 							 ,@RequestParam(required=false, defaultValue="1")int range
-							 ,@RequestParam(required=false, defaultValue="ym")String searchType
+							 ,@RequestParam(required=false, defaultValue="admi_nm")String searchType
 							 ,@RequestParam(required=false)String keyword
+							 ,@RequestParam(required=false)String period
 							 ,@ModelAttribute("search")Search search) throws Exception{
 		
 		//검색
 		model.addAttribute("search", search);
 		search.setSearchType(searchType);
 		search.setKeyword(keyword);
-		
+		search.setPeriod(period);
+				
 		//전체 데이터 개수
 		int listCnt = boardService.getBoardListCnt(search);
 		

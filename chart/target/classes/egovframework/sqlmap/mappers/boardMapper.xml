@@ -11,22 +11,33 @@
 			ORDER BY unq asc
 		</select> -->
 		
+<!-- 		select * from test2 -->
+<!-- 		where to_char(to_date('201604','YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= '201604'  -->
+		
+<!-- 		select to_char(to_date('202204','YYYYMM')-interval '12 month','YYYYMM') -->
+
 		<!-- 게시글 목록 조회 -->
 		<select id="selectBoard" resultType="boardVO">
 			select s.unq as unq, s.ym as ym, f.admi_nm as admi_nm, s.sensor_nm as sensor_nm, s.avrg_tp as avrg_tp, s.avrg_hd as avrg_hd, s.avrg_ulfptc_dnsty as avrg_ulfptc_dnsty, s.avrg_minudust_dnsty as avrg_minudust_dnsty, s.avrg_ulvry_idex as avrg_ulvry_idex
 			from test1 f join test2 s
 			on f.admi_cd = s.dong_cd2
-			<where>
-				<if test="searchType=='ym' and keyword != null and keyword !=''">
-					AND ym like CONCAT('%', #{keyword}, '%')
+			where 1=1
+			<if test="period != null and period != 'null' and period != ''">
+				<![CDATA[AND to_char(to_date(#{period},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{period}]]>
+			</if>					
+				<if test="keyword != null and keyword !=''">			
+					<choose>
+<!-- 					<when test="searchType=='ym'"> -->
+<!-- 						<![CDATA[AND to_char(to_date(#{keyword},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{keyword}]]> -->
+<!-- 					</when> -->
+						<when test="searchType=='admi_nm'">
+							AND admi_nm like CONCAT('%', #{keyword}, '%')
+						</when>
+						<when test="searchType=='sensor_nm'">
+							AND sensor_nm like CONCAT('%', #{keyword}, '%')
+						</when>
+					</choose>
 				</if>
-				<if test="searchType=='admi_nm' and keyword != null and keyword !=''">
-					AND admi_nm like CONCAT('%', #{keyword}, '%')
-				</if>
-				<if test="searchType=='sensor_nm' and keyword != null and keyword !=''">
-					AND sensor_nm like CONCAT('%', #{keyword}, '%')
-				</if>
-			</where>
 			order by unq asc
 			limit #{listSize} offset #{startList}
 		</select>
@@ -36,19 +47,23 @@
 			select count(*) as listCnt
 			from test1 f join test2 s
 			on f.admi_cd = s.dong_cd2
-			<where>
+			where 1=1
+			<if test="period != null and period != 'null' and period != ''">
+				<![CDATA[AND to_char(to_date(#{period},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{period}]]>
+			</if>
 				<if test="keyword != null and keyword !=''">
-					<if test="searchType=='ym'">
-						AND ym like CONCAT('%', #{keyword}, '%')
-					</if>
-					<if test="searchType=='admi_nm'">
-						AND admi_nm like CONCAT('%', #{keyword}, '%')
-					</if>
-					<if test="searchType=='sensor_nm'">
-						AND sensor_nm like CONCAT('%', #{keyword}, '%')
-					</if>
-				</if>
-			</where>		
+					<choose>
+<!-- 						<when test="searchType=='ym'"> -->
+<!-- 							<![CDATA[AND to_char(to_date(#{keyword},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{keyword}]]> -->
+<!-- 						</when>					 -->
+						<when test="searchType=='admi_nm'">
+							AND admi_nm like CONCAT('%', #{keyword}, '%')
+						</when>
+						<when test="searchType=='sensor_nm'">
+							AND sensor_nm like CONCAT('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</if>				
 		</select>
 
 		<!-- 데이터 삽입 -->

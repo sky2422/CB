@@ -4,6 +4,7 @@ public class Search extends Pagination {
 	
 	private String searchType;
 	private String keyword;
+	private String period;
 	
 	public String getSearchType() {
 		return searchType;
@@ -17,5 +18,12 @@ public class Search extends Pagination {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+	public String getPeriod() {
+		return period;
+	}
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+	
 		
 }

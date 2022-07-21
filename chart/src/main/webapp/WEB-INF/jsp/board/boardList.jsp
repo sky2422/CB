@@ -32,11 +32,15 @@
 			<!-- search start -->
 			<div class="form-group row">
 				
+				<div style="margin-left: 30px;">
+					<label for="period"></label>
+    				<input name="period" id="period" class="date-picker" />
+				</div>
 								
 				<div class="w100" style="padding-right: 10px">
 					<select class="form-control form-control-sm" name="searchType" id="searchType">
 						<option value="admi_nm">동네명</option>
-						<option value="ym">날짜</option>						
+<!-- 						<option value="ym">날짜</option>						 -->
 						<option value="sensor_nm">센서명</option>
 					</select>				
 				</div>		
@@ -47,15 +51,11 @@
 				
 				<div>
 					<button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
-				</div>
-				
-				<div>
-					<button id="btn_write" type="button" class="btn_write">글작성</button>
-				</div>
+				</div>				
 			</div>
 			<!-- search end -->
 			
-			<table class="list_table">				
+			<table class="list_table" style="text-align: center;">				
 				<thead>
 					<tr>
 						<th>번호</th>
@@ -91,6 +91,9 @@
 		</form>	
 	</div>
 	<br>
+	<div>
+		<button id="btn_write" type="button" class="btn btn-primary btn_write">글작성</button>
+	</div>	
 	
 	<!-- pagination{s} -->
 
@@ -100,14 +103,14 @@
 			<c:if test="${pagination.prev}">
 				<li class="page-item"><a class="page-link" href="#"
 					onClick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
-					,'${search.searchType}', '${search.keyword}')">이전</a></li>
+					,'${search.searchType}', '${search.keyword}', '${search.period}')">이전</a></li>
 			</c:if>
 
 			<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="unq">
 
 				<li	class="page-item <c:out value="${pagination.page == unq ? 'active' : ''}"/> ">
 					<a class="page-link" href="#" onClick="fn_pagination('${unq}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
-					 ,'${search.searchType}', '${search.keyword}')">
+					 ,'${search.searchType}', '${search.keyword}', '${search.period}')">
 						${unq} 
 					</a>
 				</li>
@@ -117,7 +120,7 @@
 
 				<li class="page-item">
 					<a class="page-link" href="#" onClick="fn_next('${pagination.range}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
-					,'${search.searchType}', '${search.keyword}')">다음</a>
+					,'${search.searchType}', '${search.keyword}', '${search.period}')">다음</a>
 				</li>
 			</c:if>
 		</ul>
@@ -150,8 +153,8 @@
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
-        dateFormat: 'yy년 MM',
-        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        dateFormat: 'yyMM',
+        monthNames: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
         monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
         showOn:"button",
         buttonImage:"/images/calender.png",
@@ -165,7 +168,7 @@
 	//이전 버튼 이벤트
     //5개의 인자값을 가지고 이동 testList.do
     //무조건 이전페이지 범위의 가장 앞 페이지로 이동
-    function fn_prev(page, range, rangeSize, listSize, searchType, keyword) {
+    function fn_prev(page, range, rangeSize, listSize, searchType, keyword, period) {
             
         var page = ((range - 2) * rangeSize) + 1;
         var range = range - 1;
@@ -176,12 +179,13 @@
         url += "&listSize=" + listSize;
         url += "&searchType=" + searchType;
         url += "&keyword=" + keyword;
+        url += "&period=" + period;
         location.href = url;
         }
  
  
     //페이지 번호 클릭
-    function fn_pagination(page, range, rangeSize, listSize, searchType, keyword) {
+    function fn_pagination(page, range, rangeSize, listSize, searchType, keyword, period) {
  
         var url = "/boardList.do";
             url += "?page=" + page;
@@ -189,13 +193,14 @@
             url += "&listSize=" + listSize;
             url += "&searchType=" + searchType;
             url += "&keyword=" + keyword; 
+            url += "&period=" + period; 
  
             location.href = url;    
         }
  
     //다음 버튼 이벤트
     //다음 페이지 범위의 가장 앞 페이지로 이동
-    function fn_next(page, range, rangeSize, listSize, searchType, keyword) {
+    function fn_next(page, range, rangeSize, listSize, searchType, keyword, period) {
         var page = parseInt((range * rangeSize)) + 1;
         var range = parseInt(range) + 1;            
         var url = "/boardList.do";
@@ -204,6 +209,7 @@
             url += "&listSize=" + listSize;
             url += "&searchType=" + searchType;
             url += "&keyword=" + keyword;
+            url += "&period=" + period;
             location.href = url;
         }
         
@@ -213,6 +219,7 @@
         var url = "/boardList.do";
         url += "?searchType=" + $('#searchType').val();
         url += "&keyword=" + $('#keyword').val();
+        url += "&period=" + $('#period').val();
         location.href = url;
         console.log(url);
  
