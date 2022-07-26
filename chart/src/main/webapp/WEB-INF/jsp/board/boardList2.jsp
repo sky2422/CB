@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,6 +17,9 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+
+
 <link href="/css/board/board.css" rel="stylesheet" type="text/css">
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 
@@ -29,26 +32,34 @@
 	<div class="testlist">
 		<form id="boardForm" name="boardForm" method="post">
 			
-			<div>
-				<label for="ym">날짜 :</label>
-    			<input name="ym" id="ym" class="date-picker" />
-    			
-    			<select id="admi_nm" name="admi_nm">
-					<c:forEach items="${dongList }" var="dong">
-						<option value="${dong.admi_nm }"><c:out value="${dong.admi_nm }"></c:out></option>
-					</c:forEach>
-				</select>
+			<!-- search start -->
+			<div class="form-group row">
 				
-    			<select id="dong_cd2" name="dong_cd2">
-					<c:forEach items="${sensorList }" var="sensor">
-						<option value="${sensor.sensor_nm }"><c:out value="${sensor.sensor_nm }"></c:out></option>
-					</c:forEach>
-				</select>
-
-				<button id="btn_write" type="button" class="btn_write">글작성</button>
+				<div style="margin-left: 30px;">
+					<label for="period"></label>
+    				<input name="period" id="period" class="date-picker" />
+				</div>
+				
+				<div class="w100" style="padding-right: 10px">
+					<select id="admi" name="admi">
+							<option value="">--동네명--</option>
+						<c:forEach items="${dongList }" var="dong">
+							<option value="${dong.admi_nm }"><c:out value="${dong.admi_nm }"></c:out></option>
+						</c:forEach>
+					</select>				
+				</div>	
+								
+				<div>
+					<input type="text" id="sensor" name="sensor">
+				</div>
+				
+				<div>
+					<button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
+				</div>				
 			</div>
+			<!-- search end -->
 			
-			<table class="list_table">				
+			<table class="list_table" style="text-align: center;">				
 				<thead>
 					<tr>
 						<th>번호</th>
@@ -83,13 +94,134 @@
 			</table>
 		</form>	
 	</div>
+	<br>
+	<div>
+		<button id="btn_write" type="button" class="btn btn-primary btn_write">글작성</button>
+	</div>	
 	
+	<!-- pagination{s} -->
+
+	<div id="paginationBox" class="pagination1">
+		<ul class="pagination">
+
+			<c:if test="${pagination.prev}">
+				<li class="page-item"><a class="page-link" href="#"
+					onClick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
+					,'${search.admi}', '${search.sensor}', '${search.period}')">이전</a></li>
+			</c:if>
+
+			<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="unq">
+
+				<li	class="page-item <c:out value="${pagination.page == unq ? 'active' : ''}"/> ">
+					<a class="page-link" href="#" onClick="fn_pagination('${unq}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
+					 ,'${search.admi}', '${search.sensor}', '${search.period}')">
+						${unq} 
+					</a>
+				</li>
+			</c:forEach>
+
+			<c:if test="${pagination.next}">
+
+				<li class="page-item">
+					<a class="page-link" href="#" onClick="fn_next('${pagination.range}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
+					,'${search.admi}', '${search.sensor}', '${search.period}')">다음</a>
+				</li>
+			</c:if>
+		</ul>
+	</div>
+	<!-- pagination{e} -->
 	
 	<br>
+	
+	<!-- Prepare a DOM with a defined width and height for ECharts -->
+    <div id="chart-container" style="width: 100%;height:600px;"></div>
+    
 </body>
 <script type="text/javascript">
+	var dom = document.getElementById('chart-container');
+	var myChart = echarts.init(dom, null, {
+	  renderer: 'canvas',
+	  useDirtyRect: false
+	});
+	var app = {};
+	
+	var option;
+	
+	option = {
+	  title: {
+	    text: 'Stacked Line'
+	  },
+	  tooltip: {
+	    trigger: 'axis'
+	  },
+	  legend: {
+	    data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+	  },
+	  grid: {
+	    left: '3%',
+	    right: '4%',
+	    bottom: '3%',
+	    containLabel: true
+	  },
+	  toolbox: {
+	    feature: {
+	      saveAsImage: {}
+	    }
+	  },
+	  xAxis: {
+	    type: 'category',
+	    boundaryGap: false,
+	    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+	  },
+	  yAxis: {
+	    type: 'value'
+	  },
+	  series: [
+	    {
+	      name: 'Email',
+	      type: 'line',
+	      stack: 'Total',
+	      data: [120, 132, 101, 134, 90, 230, 210]
+	    },
+	    {
+	      name: 'Union Ads',
+	      type: 'line',
+	      stack: 'Total',
+	      data: [220, 182, 191, 234, 290, 330, 310]
+	    },
+	    {
+	      name: 'Video Ads',
+	      type: 'line',
+	      stack: 'Total',
+	      data: [150, 232, 201, 154, 190, 330, 410]
+	    },
+	    {
+	      name: 'Direct',
+	      type: 'line',
+	      stack: 'Total',
+	      data: [320, 332, 301, 334, 390, 330, 320]
+	    },
+	    {
+	      name: 'Search Engine',
+	      type: 'line',
+	      stack: 'Total',
+	      data: [820, 932, 901, 934, 1290, 1330, 1320]
+	    }
+	  ]
+	};
+	
+	if (option && typeof option === 'object') {
+	  myChart.setOption(option);
+	}
+	
+	window.addEventListener('resize', myChart.resize);
+</script>
+
+
+<script type="text/javascript">
 	//글 작성 버튼 클릭 시 testRegister로 이동
-	$("#btn_write").click(function() {
+	$("#btn_write").click(function() {		
+		
 		$(location).attr('href', 'boardRegister.do');
 	})
 	
@@ -106,6 +238,8 @@
 	 	form.submit(); 
 	}
 	
+	
+	//데이트피커
 	$(function() {
         $('.date-picker').datepicker( {
         changeMonth: true,
@@ -122,6 +256,84 @@
         }
         });
     });
+
+	//이전 버튼 이벤트
+    //5개의 인자값을 가지고 이동 testList.do
+    //무조건 이전페이지 범위의 가장 앞 페이지로 이동
+    function fn_prev(page, range, rangeSize, listSize, admi, sensor, period) {
+            
+        var page = ((range - 2) * rangeSize) + 1;
+        var range = range - 1;
+            
+        var url = "/boardList.do";
+        url += "?page=" + page;
+        url += "&range=" + range;
+        url += "&listSize=" + listSize;
+        url += "&admi=" + admi;
+        url += "&sensor=" + sensor;
+        url += "&period=" + period;
+        location.href = url;
+        }
+ 
+ 
+    //페이지 번호 클릭
+    function fn_pagination(page, range, rangeSize, listSize, admi, sensor, period) {
+ 
+        var url = "/boardList.do";
+            url += "?page=" + page;
+            url += "&range=" + range;
+            url += "&listSize=" + listSize;
+            url += "&admi=" + admi;
+            url += "&sensor=" + sensor; 
+            url += "&period=" + period; 
+ 
+            location.href = url;    
+        }
+ 
+    //다음 버튼 이벤트
+    //다음 페이지 범위의 가장 앞 페이지로 이동
+    function fn_next(page, range, rangeSize, listSize, admi, sensor, period) {
+        var page = parseInt((range * rangeSize)) + 1;
+        var range = parseInt(range) + 1;            
+        var url = "/boardList.do";
+            url += "?page=" + page;
+            url += "&range=" + range;
+            url += "&listSize=" + listSize;
+            url += "&admi=" + admi;
+            url += "&sensor=" + sensor;
+            url += "&period=" + period;
+            location.href = url;
+        }
+        
+    // 검색
+    $(document).on('click', '#btnSearch', function(e){
+		
+		if($("#period").val() == ""){
+			alert("날짜를 선택하세요");
+			return false;
+		}else if($("#admi").val() == ""){
+			alert("동네를 선택하세요");
+			return false;
+		}else if($("#sensor").val() == ""){
+			alert("센서를 입력하세요");
+			return false;
+		}
+	
+	
+        e.preventDefault();
+        var url = "/boardList.do";
+        url += "?admi=" + $('#admi').val();
+        url += "&sensor=" + $('#sensor').val();
+        url += "&period=" + $('#period').val();
+        location.href = url;
+        console.log(url);
+ 
+    });    
+
+	//차트
+			
+	
+
 </script>
 <style>
     .ui-datepicker-calendar {

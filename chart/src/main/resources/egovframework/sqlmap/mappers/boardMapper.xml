@@ -25,19 +25,12 @@
 			<if test="period != null and period != 'null' and period != ''">
 				<![CDATA[AND to_char(to_date(#{period},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{period}]]>
 			</if>					
-				<if test="keyword != null and keyword !=''">			
-					<choose>
-<!-- 					<when test="searchType=='ym'"> -->
-<!-- 						<![CDATA[AND to_char(to_date(#{keyword},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{keyword}]]> -->
-<!-- 					</when> -->
-						<when test="searchType=='admi_nm'">
-							AND admi_nm like CONCAT('%', #{keyword}, '%')
-						</when>
-						<when test="searchType=='sensor_nm'">
-							AND sensor_nm like CONCAT('%', #{keyword}, '%')
-						</when>
-					</choose>
-				</if>
+			<if test="admi != null and admi != 'null' and admi != ''">
+				AND admi_nm like CONCAT('%', #{admi}, '%')
+			</if>
+			<if test="sensor != null and sensor != 'null' and sensor != ''">
+				AND sensor_nm like CONCAT('%', #{sensor}, '%')
+			</if>			
 			order by unq asc
 			limit #{listSize} offset #{startList}
 		</select>
@@ -50,20 +43,13 @@
 			where 1=1
 			<if test="period != null and period != 'null' and period != ''">
 				<![CDATA[AND to_char(to_date(#{period},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{period}]]>
+			</if>					
+			<if test="admi != null and admi != 'null' and admi != ''">
+				AND admi_nm like CONCAT('%', #{admi}, '%')
 			</if>
-				<if test="keyword != null and keyword !=''">
-					<choose>
-<!-- 						<when test="searchType=='ym'"> -->
-<!-- 							<![CDATA[AND to_char(to_date(#{keyword},'YYYYMM')-interval '12 month','YYYYMM') <= ym and ym <= #{keyword}]]> -->
-<!-- 						</when>					 -->
-						<when test="searchType=='admi_nm'">
-							AND admi_nm like CONCAT('%', #{keyword}, '%')
-						</when>
-						<when test="searchType=='sensor_nm'">
-							AND sensor_nm like CONCAT('%', #{keyword}, '%')
-						</when>
-					</choose>
-				</if>				
+			<if test="sensor != null and sensor != 'null' and sensor != ''">
+				AND sensor_nm like CONCAT('%', #{sensor}, '%')
+			</if>				
 		</select>
 
 		<!-- 데이터 삽입 -->

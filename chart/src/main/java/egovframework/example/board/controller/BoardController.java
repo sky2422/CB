@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,16 +45,24 @@ public class BoardController {
 	public String boardListDO(BoardVO boardVO, Model model
 							 ,@RequestParam(required=false, defaultValue="1")int page
 							 ,@RequestParam(required=false, defaultValue="1")int range
-							 ,@RequestParam(required=false, defaultValue="admi_nm")String searchType
-							 ,@RequestParam(required=false)String keyword
+							 ,@RequestParam(required=false)String admi
+							 ,@RequestParam(required=false)String sensor
 							 ,@RequestParam(required=false)String period
 							 ,@ModelAttribute("search")Search search) throws Exception{
 		
 		//검색
 		model.addAttribute("search", search);
-		search.setSearchType(searchType);
-		search.setKeyword(keyword);
+		search.setAdmi(admi);
+		search.setSensor(sensor);
 		search.setPeriod(period);
+		
+		
+		
+		//행정동 리스트
+		model.addAttribute("dongList", boardService.dongList(boardVO));	
+		
+		//센서 리스트
+		model.addAttribute("sensorList", boardService.sensorList(boardVO));
 				
 		//전체 데이터 개수
 		int listCnt = boardService.getBoardListCnt(search);
@@ -67,7 +76,7 @@ public class BoardController {
 		
 		//list를 json으로 변환
 			//List 생성
-			List<BoardVO> dataList = boardService.selectBoard(search);
+			List<BoardVO> dataList = boardService.selectBoard(search);			
 			
 			//jackson objectmapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -77,6 +86,21 @@ public class BoardController {
 			
 			//Json 문자열 출력
 			System.out.println(jList);
+		
+			model.addAttribute("jList", jList);
+			
+		//검색어 유지
+			String sPeriod = search.getPeriod();
+			String sSensor = search.getSensor();
+			String sAdmi = search.getAdmi(); 
+					
+			model.addAttribute("sPeriod", sPeriod);
+			model.addAttribute("sSensor", sSensor);
+			model.addAttribute("sAdmi", sAdmi);
+			
+			System.out.println(sPeriod);
+			System.out.println(sSensor);
+			System.out.println(sAdmi);
 		
 		
 		return "board/boardList";

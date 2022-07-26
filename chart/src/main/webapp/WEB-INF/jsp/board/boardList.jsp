@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,10 +14,11 @@
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+
+
 <link href="/css/board/board.css" rel="stylesheet" type="text/css">
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 
@@ -35,19 +36,21 @@
 				
 				<div style="margin-left: 30px;">
 					<label for="period"></label>
-    				<input name="period" id="period" class="date-picker" />
+    				<input name="period" id="period" class="date-picker" value="${sPeriod }"/>
 				</div>
-								
-				<div class="w100" style="padding-right: 10px">
-					<select class="form-control form-control-sm" name="searchType" id="searchType">
-						<option value="admi_nm">동네명</option>
-						<option value="sensor_nm">센서명</option>
-					</select>				
-				</div>		
 				
-				<div class="w300" style="padding-right : 10px">
-					<input type="text" class="form-control form-control-sm" name="keyword" id="keyword">
-				</div>		
+				<div class="w100" style="padding-right: 10px">
+					<select id="admi" name="admi">
+							<option value="">-동선택-</option>		
+						<c:forEach items="${dongList }" var="dong">
+							<option value="${dong.admi_nm }"><c:out value="${dong.admi_nm }"></c:out></option>
+						</c:forEach>
+					</select>				
+				</div>	
+								
+				<div>
+					<input type="text" id="sensor" name="sensor" value="${sSensor }">
+				</div>
 				
 				<div>
 					<button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
@@ -103,14 +106,14 @@
 			<c:if test="${pagination.prev}">
 				<li class="page-item"><a class="page-link" href="#"
 					onClick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
-					,'${search.searchType}', '${search.keyword}', '${search.period}')">이전</a></li>
+					,'${search.admi}', '${search.sensor}', '${search.period}')">이전</a></li>
 			</c:if>
 
 			<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="unq">
 
 				<li	class="page-item <c:out value="${pagination.page == unq ? 'active' : ''}"/> ">
 					<a class="page-link" href="#" onClick="fn_pagination('${unq}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
-					 ,'${search.searchType}', '${search.keyword}', '${search.period}')">
+					 ,'${search.admi}', '${search.sensor}', '${search.period}')">
 						${unq} 
 					</a>
 				</li>
@@ -120,16 +123,168 @@
 
 				<li class="page-item">
 					<a class="page-link" href="#" onClick="fn_next('${pagination.range}', '${pagination.range}', '${pagination.rangeSize}', '${pagination.listSize}'
-					,'${search.searchType}', '${search.keyword}', '${search.period}')">다음</a>
+					,'${search.admi}', '${search.sensor}', '${search.period}')">다음</a>
 				</li>
 			</c:if>
 		</ul>
 	</div>
 	<!-- pagination{e} -->
+	
+	<br>
+	
+	<!-- Prepare a DOM with a defined width and height for ECharts -->
+    <div id="chart-container" style="width: 100%;height:600px;"></div>
+    
+    ${sAdmi }
 </body>
 <script type="text/javascript">
+
+var jsonData = '${jList}'
+
+var json = JSON.parse(jsonData);
+
+console.log(json);
+
+console.log(json[0].ym);
+
+var ym = new Array();
+var tp = new Array();
+var hd = new Array();
+var ulfptc = new Array();
+var minudust = new Array();
+var ulvry = new Array();
+
+
+for(var i = 0; i<json.length; i++){
+	ym.push(json[i].ym);
+	tp.push(json[i].avrg_tp);
+	hd.push(json[i].avrg_hd);
+	ulfptc.push(json[i].avrg_ulfptc_dnsty);
+	minudust.push(json[i].avrg_minudust_dnsty);
+	ulvry.push(json[i].avrg_ulvry_idex);	
+}
+
+console.log(ym);
+console.log(tp);
+console.log(hd);
+console.log(ulfptc);
+console.log(minudust);
+console.log(ulvry);
+
+
+</script>
+<script type="text/javascript">
+	
+	var jsonData = '${jList}'
+
+	var json = JSON.parse(jsonData);
+
+	console.log(json);
+
+	console.log(json[0].ym);
+
+	var ym = new Array();
+	var tp = new Array();
+	var hd = new Array();
+	var ulfptc = new Array();
+	var minudust = new Array();
+	var ulvry = new Array();
+
+
+	for(var i = 0; i<json.length; i++){
+		ym.push(json[i].ym);
+		tp.push(json[i].avrg_tp);
+		hd.push(json[i].avrg_hd);
+		ulfptc.push(json[i].avrg_ulfptc_dnsty);
+		minudust.push(json[i].avrg_minudust_dnsty);
+		ulvry.push(json[i].avrg_ulvry_idex);	
+	}
+	
+	
+	var dom = document.getElementById('chart-container');
+	var myChart = echarts.init(dom, null, {
+	  renderer: 'canvas',
+	  useDirtyRect: false
+	});
+	var app = {};
+	
+	var option;
+	
+	option = {
+	  title: {
+	    text: '미세먼지 그래프'
+	  },
+	  tooltip: {
+	    trigger: 'axis'
+	  },
+	  legend: {
+	    data: ['온도', '습도', '초미세먼지', '미세먼지', '자외선']
+	  },
+	  grid: {
+	    left: '3%',
+	    right: '4%',
+	    bottom: '3%',
+	    containLabel: true
+	  },
+	  toolbox: {
+	    feature: {
+	      saveAsImage: {}
+	    }
+	  },
+	  xAxis: {
+	    type: 'category',
+	    boundaryGap: false,
+	    data: ym
+	  },
+	  yAxis: {
+	    type: 'value'
+	  },
+	  series: [
+	    {
+	      name: '온도',
+	      type: 'line',
+	      stack: 'Total',
+	      data: tp
+	    },
+	    {
+	      name: '습도',
+	      type: 'line',
+	      stack: 'Total',
+	      data: hd
+	    },
+	    {
+	      name: '초미세먼지',
+	      type: 'line',
+	      stack: 'Total',
+	      data: ulfptc
+	    },
+	    {
+	      name: '미세먼지',
+	      type: 'line',
+	      stack: 'Total',
+	      data: minudust
+	    },
+	    {
+	      name: '자외선',
+	      type: 'line',
+	      stack: 'Total',
+	      data: ulvry
+	    }
+	  ]
+	};
+	
+	if (option && typeof option === 'object') {
+	  myChart.setOption(option);
+	}
+	
+	window.addEventListener('resize', myChart.resize);
+</script>
+
+
+<script type="text/javascript">
 	//글 작성 버튼 클릭 시 testRegister로 이동
-	$("#btn_write").click(function() {
+	$("#btn_write").click(function() {		
+		
 		$(location).attr('href', 'boardRegister.do');
 	})
 	
@@ -168,7 +323,7 @@
 	//이전 버튼 이벤트
     //5개의 인자값을 가지고 이동 testList.do
     //무조건 이전페이지 범위의 가장 앞 페이지로 이동
-    function fn_prev(page, range, rangeSize, listSize, searchType, keyword, period) {
+    function fn_prev(page, range, rangeSize, listSize, admi, sensor, period) {
             
         var page = ((range - 2) * rangeSize) + 1;
         var range = range - 1;
@@ -177,22 +332,22 @@
         url += "?page=" + page;
         url += "&range=" + range;
         url += "&listSize=" + listSize;
-        url += "&searchType=" + searchType;
-        url += "&keyword=" + keyword;
+        url += "&admi=" + admi;
+        url += "&sensor=" + sensor;
         url += "&period=" + period;
         location.href = url;
         }
  
  
     //페이지 번호 클릭
-    function fn_pagination(page, range, rangeSize, listSize, searchType, keyword, period) {
+    function fn_pagination(page, range, rangeSize, listSize, admi, sensor, period) {
  
         var url = "/boardList.do";
             url += "?page=" + page;
             url += "&range=" + range;
             url += "&listSize=" + listSize;
-            url += "&searchType=" + searchType;
-            url += "&keyword=" + keyword; 
+            url += "&admi=" + admi;
+            url += "&sensor=" + sensor; 
             url += "&period=" + period; 
  
             location.href = url;    
@@ -200,30 +355,47 @@
  
     //다음 버튼 이벤트
     //다음 페이지 범위의 가장 앞 페이지로 이동
-    function fn_next(page, range, rangeSize, listSize, searchType, keyword, period) {
+    function fn_next(page, range, rangeSize, listSize, admi, sensor, period) {
         var page = parseInt((range * rangeSize)) + 1;
         var range = parseInt(range) + 1;            
         var url = "/boardList.do";
             url += "?page=" + page;
             url += "&range=" + range;
             url += "&listSize=" + listSize;
-            url += "&searchType=" + searchType;
-            url += "&keyword=" + keyword;
+            url += "&admi=" + admi;
+            url += "&sensor=" + sensor;
             url += "&period=" + period;
             location.href = url;
         }
         
     // 검색
     $(document).on('click', '#btnSearch', function(e){
+		
+		if($("#period").val() == ""){
+			alert("날짜를 선택하세요");
+			return false;
+		}else if($("#admi").val() == ""){
+			alert("동네를 선택하세요");
+			return false;
+		}else if($("#sensor").val() == ""){
+			alert("센서를 입력하세요");
+			return false;
+		}
+	
+	
         e.preventDefault();
         var url = "/boardList.do";
-        url += "?searchType=" + $('#searchType').val();
-        url += "&keyword=" + $('#keyword').val();
+        url += "?admi=" + $('#admi').val();
+        url += "&sensor=" + $('#sensor').val();
         url += "&period=" + $('#period').val();
         location.href = url;
         console.log(url);
  
     });    
+	
+	//셀렉트 박스 검색 유지
+	var sAdmi = '${sAdmi}'	
+	$("#admi").val(sAdmi).prop("selected", true);	
 
 </script>
 <style>
