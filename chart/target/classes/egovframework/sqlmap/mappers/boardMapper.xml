@@ -31,7 +31,7 @@
 			<if test="sensor != null and sensor != 'null' and sensor != ''">
 				AND sensor_nm like CONCAT('%', #{sensor}, '%')
 			</if>			
-			order by unq asc
+			order by unq desc
 			limit #{listSize} offset #{startList}
 		</select>
 		
@@ -72,8 +72,10 @@
 		<!-- 센서명 불러오기 -->
 		<select id="sensorList" resultType="boardVO">
 		
-			select distinct sensor_nm
-			from test2
+			select distinct f.admi_nm as admi_nm, s.sensor_nm as sensor_nm
+			from test1 f join test2 s
+			on f.admi_cd = s.dong_cd2
+			order by admi_nm asc
 		
 		</select>
 		
@@ -89,9 +91,7 @@
 		
 		<!-- 데이터 업데이트 -->
 		<update id="updateBoard">
-			update test2 set dong_cd2=#{dong_cd2}
-							,sensor_nm=#{sensor_nm}
-							,avrg_tp=#{avrg_tp}
+			update test2 set avrg_tp=#{avrg_tp}
 							,avrg_hd=#{avrg_hd}
 							,avrg_ulfptc_dnsty=#{avrg_ulfptc_dnsty}
 							,avrg_minudust_dnsty=#{avrg_minudust_dnsty}

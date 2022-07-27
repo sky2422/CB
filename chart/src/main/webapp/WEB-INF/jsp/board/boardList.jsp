@@ -134,8 +134,7 @@
 	
 	<!-- Prepare a DOM with a defined width and height for ECharts -->
     <div id="chart-container" style="width: 100%;height:600px;"></div>
-    
-    ${sAdmi }
+
 </body>
 <script type="text/javascript">
 
@@ -243,31 +242,26 @@ console.log(ulvry);
 	    {
 	      name: '온도',
 	      type: 'line',
-	      stack: 'Total',
 	      data: tp
 	    },
 	    {
 	      name: '습도',
 	      type: 'line',
-	      stack: 'Total',
 	      data: hd
 	    },
 	    {
 	      name: '초미세먼지',
 	      type: 'line',
-	      stack: 'Total',
 	      data: ulfptc
 	    },
 	    {
 	      name: '미세먼지',
 	      type: 'line',
-	      stack: 'Total',
 	      data: minudust
 	    },
 	    {
 	      name: '자외선',
 	      type: 'line',
-	      stack: 'Total',
 	      data: ulvry
 	    }
 	  ]

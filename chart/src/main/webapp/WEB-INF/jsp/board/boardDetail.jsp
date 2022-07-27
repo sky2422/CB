@@ -29,7 +29,7 @@
 	<div class="container">
 		<table class="table table-bordered">
 			<thead>
-				<h1>데이터 상세보기 Detail</h1>
+				<h1>데이터 상세보기</h1>
 			</thead>
 			<tbody>
 				<form action="updateBoard.do" id="viewForm" method="post"
@@ -61,7 +61,7 @@
 					
 					<tr>
 						<th>습도</th>
-						<td><input type="text"  name="avrg_hd " value="${result.avrg_hd }" class="form-control" /></td>
+						<td><input type="text"  name="avrg_hd" value="${result.avrg_hd }" class="form-control" /></td>
 					</tr>
 					
 					<tr>

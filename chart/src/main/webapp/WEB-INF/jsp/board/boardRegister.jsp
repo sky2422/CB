@@ -41,6 +41,7 @@
 						<th>행정동명</th>
 						<td>
 							<select id="dong_cd2" name="dong_cd2">
+									<option value="">-동선택-</option>
 								<c:forEach items="${dongList }" var="dong">
 									<option value="${dong.dong_cd2 }"><c:out value="${dong.admi_nm }"></c:out></option>
 								</c:forEach>
@@ -52,6 +53,7 @@
 						<th>센서명</th>
 						<td>
 							<select id="sensor_nm" name="sensor_nm">
+									<option value="">-센서선택-</option>
 								<c:forEach items="${sensorList }" var="sensor">
 									<option value="${sensor.sensor_nm }"><c:out value="${sensor.sensor_nm }"></c:out></option>
 								</c:forEach>
